@@ -20,7 +20,7 @@ text3: The Book of Genesis  <<创世纪>>
 text4: Inaugural Address Corpus 《就职演说语料》
 text5: Chat Corpus 《NPS 聊天语料库》
 text6: Monty Python and the Holy Grail
-text7: Wall Street Journal
+text7: Wall Street Journal 《（华尔街日报）》
 text8: Personals Corpus
 text9: The Man Who Was Thursday by G . K . Chesterton 1908
 sent1: Call me Ishmael .
