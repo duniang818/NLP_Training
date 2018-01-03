@@ -34,4 +34,66 @@ g 来表示名字*args 并没有什么特别的。
 注意不要使用可变对象作为参数的默认值。这个函数的一系列调用将使用
 同一个对象，有时会出现离奇的结果，就像我们稍后会在关于调试的讨论
 中看到的那样。
+
+模块的一些变量和函数仅用于模块内部。它们的名字应该以下划线开头，如_
+helper()，因为这将隐藏名称。如果另一个模块使用习惯用法：from modul
+e import * 导入这个模块，这些名称将不会被导入。你可以选择性的列出一
+个模块的外部可访问的名称，使用像这样的一个特殊的内置变量：__all__ =
+['edit_distance', 'jaccard_distance']。
 """
+
+import pdb
+import nltk
+
+
+def find_words(text, wordlength, result=[]):
+    for word in text:
+        if len(word) == wordlength:
+            result.append(word)
+    return result
+
+
+find_words(['cat'], 3)
+pdb.run("find_words(['dog'], 3)")
+
+# 算法设计
+def factorial2(n):
+    if n == 1:
+        return 1
+    else:
+        return n * factorial2(n-1)
+
+# dynamic programming这个在chap.8.4时再详细看
+#matlabplot
+
+#4-10.
+colors = 'rgcmyk'      #red, green, blue, cyan, magenta, yellow, black
+def bar_chart(categories, words, counts):
+    """Plot a bar char showing counts for each word by category"""
+    import pylab
+    ind = pylab.arange(len(words))
+    width = 1/(len(categories) + 1)
+    bar_groups = []
+    for c in range(len(categories)):
+        bars = pylab.bar(ind + c * width, counts[categories[c]], width, color=colors[c % len(colors)])
+        bar_groups.append(bars)
+        print('ind:\n', ind,
+              'width: \n', width,
+              'categories[c]', categories[c],
+              'counts[categories[c]]:\n', counts[categories[c]])
+    pylab.xticks(ind + width, words)
+    pylab.legend([b[0] for b in bar_groups], categories, loc='upper left')
+    pylab.ylabel('Frequency')
+    pylab.title('Frequency of Six Modal Verbs by Genre')
+    pylab.show()
+
+
+genres = ['news', 'religion', 'hobbies', 'government', 'adventure']
+modals = ['can', 'could', 'may', 'might', 'must', 'will']
+cfdist = nltk.ConditionalFreqDist((genre, word) for genre in genres
+                                  for word in nltk.corpus.brown.words(categories=genre) if word in modals)
+
+counts = {}
+for genre in genres:
+    counts[genre] = [cfdist[genre][word] for word in modals]
+bar_chart(genres, modals, counts)
