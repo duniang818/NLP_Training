@@ -79,7 +79,8 @@ def bar_chart(categories, words, counts):
         bar_groups.append(bars)
         print('ind:\n', ind,
               'width: \n', width,
-              'categories[c]', categories[c],
+              'ind + c*width:\n', ind + c * width,
+              'categories[c]:\n', categories[c],
               'counts[categories[c]]:\n', counts[categories[c]])
     pylab.xticks(ind + width, words)
     pylab.legend([b[0] for b in bar_groups], categories, loc='upper left')
@@ -93,6 +94,7 @@ modals = ['can', 'could', 'may', 'might', 'must', 'will']
 cfdist = nltk.ConditionalFreqDist((genre, word) for genre in genres
                                   for word in nltk.corpus.brown.words(categories=genre) if word in modals)
 
+# 在相应分类下的情态动词各自的个数
 counts = {}
 for genre in genres:
     counts[genre] = [cfdist[genre][word] for word in modals]
