@@ -67,10 +67,12 @@ def factorial2(n):
 #matlabplot
 
 #4-10.
+
+import pylab
 colors = 'rgcmyk'      #red, green, blue, cyan, magenta, yellow, black
 def bar_chart(categories, words, counts):
     """Plot a bar char showing counts for each word by category"""
-    import pylab
+
     ind = pylab.arange(len(words))
     width = 1/(len(categories) + 1)
     bar_groups = []
@@ -99,3 +101,44 @@ counts = {}
 for genre in genres:
     counts[genre] = [cfdist[genre][word] for word in modals]
 bar_chart(genres, modals, counts)
+
+import matplotlib
+matplotlib.use('TkAgg')
+pylab.savefig('modal.png')
+print('Content-Type: text/html')
+print()
+print('<html><body>')
+print('<img src="modal.png"/>')
+print('</body></html>')
+
+# Networkx
+import networkx as nx
+import matplotlib
+from nltk.corpus import wordnet as wn
+"""
+need install: networkx, graphviz, pygraphviz(needs vs build tools)
+"""
+
+
+def traverse(graph, start, node):
+    graph.depth[node.name] = node.shortest_path_distance(start)
+    for child in node.hyponyms():
+        graph.add_edge(node.name, child.name)
+        traverse(graph, start, child)
+
+def hyponym_graph(start):
+    G = nx.Graph()
+    G.depth = {}
+    traverse(G, start, start)
+    return G
+
+def graph_draw(graph):
+    nx.draw_graphviz(graph, node_size = [16 * graph.degree(n)
+                                         for n in graph],
+                     node_color = [graph.depth[n] for n in graph],
+                     with_labels = False)
+    matplotlib.pyplot.show()
+
+dog = wn.synset('dog.n.01')
+graph = hyponym_graph(dog)
+graph_draw(graph)
