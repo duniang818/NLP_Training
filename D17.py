@@ -72,7 +72,6 @@ print(fs1)
 fs1 = nltk.FeatStruct(PER=3, NUM='pl', GND='fem')
 fs2 = nltk.FeatStruct(POS='N', AGR=fs1)
 print(fs2['AGR']['PER'])
-
 #将特征结构看作为有向无环图（directed acyclic graphs, DAGs）
 #当两条路径具有相同的值时，它们被称为是
 # 为了在我们的矩阵式表示中表示重入，我们将在共享的特征结构第一次出现的地方加一
@@ -88,3 +87,5 @@ print(fs1.unify(fs2))
 fs1 = nltk.FeatStruct("[ADDRESS1=[NUMBER=74, STREET='rue Pascal']]")
 fs2 = nltk.FeatStruct("[ADDRESS1=?x, ADDRESS2=?x]")
 print fs2.unify(fs1)
+
+
